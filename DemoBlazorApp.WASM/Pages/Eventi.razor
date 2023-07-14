@@ -1,0 +1,62 @@
+﻿@page "/eventi"
+@inject IServizioEventi servizioEventi
+
+
+<ListaEventi OnCancella="CancellaEventiPassati" listaEventi="listaEventiPassati" Titolo="Eventi già svolti"></ListaEventi>
+<ListaEventi OnCancella="CancellaEventiFuturi" listaEventi="listaEventiFuturi" Titolo ="Prossimi Eventi"></ListaEventi>
+
+@contatore
+
+<button @onclick="AumentaContatore" >Aumenta Contatore</button>
+@saluto
+
+@code {
+    private List<Evento> listaEventiFuturi = new List<Evento>();
+    private List<Evento> listaEventiPassati = new List<Evento>();
+    private int contatore = 0;
+    private string saluto = "";
+
+    protected override void OnInitialized()
+    {
+        listaEventiFuturi = servizioEventi.EstraiEventiFuturi();
+        listaEventiPassati = servizioEventi.EstraiEventiPassati();
+        contatore = servizioEventi.Contatore;
+        saluto = servizioEventi.Saluto();
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+
+    }
+
+    private void AumentaContatore()
+    {
+        servizioEventi.AumentaContatore();
+        contatore = servizioEventi.Contatore;
+    }
+
+
+
+
+
+    private void CancellaEventiPassati(Evento evento)
+    {
+        listaEventiPassati.Remove(evento);
+    }
+
+    private void CancellaEventiFuturi(Evento evento)
+    {
+        if(evento.Id != 1)
+        {
+            listaEventiFuturi.Remove(evento);
+        }
+        
+    }
+
+  
+}
