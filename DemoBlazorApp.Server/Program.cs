@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddScoped<ServizioEventi>();
+builder.Services.AddScoped<IServizioEventi, ServizioEventi>();
+builder.Services.AddScoped<IOrologio, OrologioStatico>();
 
 var app = builder.Build();
 

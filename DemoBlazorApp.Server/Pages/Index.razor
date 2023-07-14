@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject ServizioEventi servizioEventi
+@inject IServizioEventi servizioEventi
 
 <PageTitle>Index</PageTitle>
 
@@ -11,13 +11,18 @@
 
 Welcome to your new app.
 
+@saluto
+
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code {
+
+    private string saluto = "";
     private int contatore = 0;
     protected override void OnInitialized()
     {
         contatore = servizioEventi.Contatore;
+        saluto = servizioEventi.Saluto();
 
     }
 

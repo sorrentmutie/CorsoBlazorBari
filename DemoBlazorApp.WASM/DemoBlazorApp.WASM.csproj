@@ -16,4 +16,8 @@
     <ProjectReference Include="..\DemoBlazorLibrary\DemoBlazorLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Shared\" />
+  </ItemGroup>
+
 </Project>
