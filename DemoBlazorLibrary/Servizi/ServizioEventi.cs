@@ -1,15 +1,19 @@
-﻿namespace DemoBlazorLibrary.Servizi;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace DemoBlazorLibrary.Servizi;
 
 public class ServizioEventi : IServizioEventi
 {
-    public ServizioEventi(IOrologio orologio)
+    public ServizioEventi(IOrologio orologio, IConfiguration configuration)
     {
         contatore = 12;
         this.orologio = orologio;
+        this.configuration = configuration;
     }
 
     private int contatore;
     private readonly IOrologio orologio;
+    private readonly IConfiguration configuration;
 
     public void AumentaContatore()
     {
@@ -43,10 +47,10 @@ public class ServizioEventi : IServizioEventi
     {
         if(orologio.EstraiOraCorrente().Hour < 12)
         {
-            return "Buongiorno!";
+            return configuration["Saluto"] + " Buongiorno!";
         } else
         {
-            return "Buonasera!";
+            return configuration["Saluto"] +  " Buonasera!";
         }
     }
 }
