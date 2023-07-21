@@ -1,3 +1,4 @@
+using DemoBlazorApp.WASM.Data;
 using DemoBlazorComponentLibrary;
 using DemoBlazorLibrary.Servizi;
 using Microsoft.AspNetCore.Components.Web;
@@ -12,5 +13,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddScoped<IServizioEventi, ServizioEventi>();
 builder.Services.AddScoped<IOrologio, OrologioStatico>();
+builder.Services.AddScoped<IDatiClienti, ServizioDatiClientiWASM>();
 
 await builder.Build().RunAsync();
