@@ -1,0 +1,42 @@
+﻿<h3>Dettaglio Cliente</h3>
+
+<EditForm Model="Cliente" OnValidSubmit="@(() => OnSalva.InvokeAsync(Cliente))">
+    <DataAnnotationsValidator/>
+    <div class="form-group">
+        <label for="Nome">Nome</label>
+        <InputText class="form-control" id="Nome" @bind-Value="Cliente.Nome" />
+        <ValidationMessage For="@( () => Cliente.Nome )"></ValidationMessage>
+    </div>
+
+    <div class="form-group">
+        <label for="Cognome">Cognome</label>
+        <InputText class="form-control" id="Cognome" @bind-Value="Cliente.Cognome" />
+        <ValidationMessage For="@( () => Cliente.Cognome )"></ValidationMessage>
+    </div>
+
+    <div class="form-group">
+        <label for="Nascita">Data di nascita</label>
+        <InputDate class="form-control" id="Nascita" @bind-Value="Cliente.DataNascita" />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">E-mail</label>
+        <InputText class="form-control" id="Email" @bind-Value="Cliente.Email" />
+    </div>
+
+
+    <button type="submit" class="btn btn-info">OK</button>
+    <button type="button" @onclick="() => OnAnnulla.InvokeAsync()" class="btn btn-info">Annulla</button>
+
+</EditForm>
+
+
+@code {
+    [Parameter] public Cliente Cliente { get; set; } = new Cliente();
+
+    [Parameter] public EventCallback<Cliente> OnSalva { get; set; }
+    [Parameter] public EventCallback OnAnnulla { get; set; }
+
+   
+
+}

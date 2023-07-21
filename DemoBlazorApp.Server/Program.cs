@@ -1,5 +1,6 @@
 using DemoBlazorApp.Server.Data;
 using DemoBlazorLibrary.Servizi;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddScoped<IServizioEventi, ServizioEventi>();
 builder.Services.AddScoped<IOrologio, OrologioStatico>();
 builder.Services.AddScoped(sp => new HttpClient() { BaseAddress = new Uri("https://localhost:7118")});
 builder.Services.AddScoped<IDatiClienti, ServizioDatiClientiServer>();
+builder.Services.AddDbContext<ClientiDbContext>
+    (opzioni => opzioni.UseSqlite("DataSource=databaseclienti"));
 
 var app = builder.Build();
 

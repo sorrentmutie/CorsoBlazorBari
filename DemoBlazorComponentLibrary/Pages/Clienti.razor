@@ -1,0 +1,70 @@
+﻿@page "/clienti"
+@inject IDatiClienti servizio
+
+@if(nuovoCliente == null)
+{
+
+    <button class="btn btn-info" @onclick="Crea">Nuovo Cliente</button>
+    @if (clienti != null && clienti.Count > 0)
+    {
+        <ListaClienti Titolo="Ultimi Clienti" Lista="clienti"
+                      OnCancella="Cancella" OnModifica="Modifica"></ListaClienti>
+    }
+} else
+{
+    <DettaglioCliente Cliente="nuovoCliente" OnAnnulla="Annulla" OnSalva="Salva"></DettaglioCliente>
+}
+
+@code {
+    private List<Cliente>? clienti = new List<Cliente>();
+    private Cliente? nuovoCliente;
+
+    private void Modifica(Cliente cliente)
+    {
+        nuovoCliente = cliente;
+    }
+
+    private void Cancella(Cliente clienteDaCancellare)
+    {
+        servizio.EliminaCliente(clienteDaCancellare.Id);
+        clienti = servizio.EstraiClienti();
+    }
+
+    protected override void OnInitialized()
+    {
+       // clienti = servizio.EstraiClienti();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        clienti = await servizio.EstraiClientiAsync();
+    }
+
+    private void Annulla()
+    {
+        nuovoCliente = null;
+    }
+
+    private void Salva(Cliente cliente)
+    {
+        nuovoCliente = null;
+
+        if(cliente.Id == 0)
+        {
+            servizio.AggiungiCliente(cliente);
+        } else
+        {
+            servizio.ModificaCliente(cliente);
+        }
+        clienti = servizio.EstraiClienti();
+    }
+
+
+    private void Crea()
+    {
+        nuovoCliente = new Cliente
+        {
+            DataNascita = DateTime.Now
+        };
+    }
+}

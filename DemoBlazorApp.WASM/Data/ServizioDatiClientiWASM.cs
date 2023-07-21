@@ -1,10 +1,13 @@
 ﻿using DemoBlazorLibrary;
 using DemoBlazorLibrary.Servizi;
+using System.Net.Http.Json;
 
 namespace DemoBlazorApp.WASM.Data
 {
     public class ServizioDatiClientiWASM : IDatiClienti
     {
+        private HttpClient httpClient = new HttpClient();
+
         public void AggiungiCliente(Cliente cliente)
         {
             throw new NotImplementedException();
@@ -22,7 +25,20 @@ namespace DemoBlazorApp.WASM.Data
 
         public List<Cliente>? EstraiClienti()
         {
-            throw new NotImplementedException();
+            return null;
+           
+        }
+
+        public async Task<List<Cliente>?> EstraiClientiAsync()
+        {
+            var response = 
+                await httpClient.GetAsync("https://localhost:7280/clienti");
+            if (response.IsSuccessStatusCode)
+            {
+               return await response.Content
+                    .ReadFromJsonAsync<List<Cliente>>();
+            }
+            return null;
         }
 
         public void ModificaCliente(Cliente cliente)
